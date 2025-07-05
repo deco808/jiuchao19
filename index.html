@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>鹫巢 阎魔的斗牌 19</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #1a1a1a;
+            font-family: 'Microsoft YaHei', 'SimHei', sans-serif;
+            color: #e0e0e0;
+            line-height: 1.6;
+            padding: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 2px solid #c62828;
+            margin-bottom: 25px;
+            background: linear-gradient(to bottom, #2c2c2c, #1a1a1a);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+        
+        h1 {
+            color: #ff9800;
+            font-size: 1.8rem;
+            text-shadow: 0 0 8px rgba(255, 152, 0, 0.4);
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+        
+        .notice {
+            background-color: #4b0000;
+            color: #ff6b6b;
+            font-weight: bold;
+            font-size: 1.1rem;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
+            border: 2px solid #ff5252;
+            box-shadow: 0 0 15px rgba(255, 82, 82, 0.3);
+        }
+        
+        .info {
+            background-color: #2a2a2a;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            border-left: 4px solid #ff9800;
+        }
+        
+        .comic-container {
+            background-color: #252525;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            margin-top: 20px;
+        }
+        
+        .comic-title {
+            text-align: center;
+            color: #ff9800;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #ff9800;
+        }
+        
+        .comic-image {
+            display: block;
+            width: 100%;
+            height: auto;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.6);
+            transition: transform 0.3s ease;
+        }
+        
+        .comic-image:hover {
+            transform: scale(1.02);
+        }
+        
+        .progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background-color: #333;
+            z-index: 1000;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, #ff9800, #ff5722);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .page-indicator {
+            text-align: center;
+            color: #9e9e9e;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            color: #757575;
+            font-size: 0.9rem;
+            margin-top: 20px;
+            border-top: 1px solid #333;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+        
+        .nav-btn {
+            background: linear-gradient(to bottom, #ff9800, #f57c00);
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+        
+        .nav-btn:active {
+            transform: translateY(1px);
+        }
+        
+        .nav-btn:disabled {
+            background: #555;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px 0;
+            color: #9e9e9e;
+            font-style: italic;
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .notice {
+                font-size: 1rem;
+                padding: 12px;
+            }
+            
+            .nav-btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    
+    <header>
+        <h1>鹫巢 阎魔的斗牌 19</h1>
+        <p>经典麻将斗智漫画 - 中文汉化版</p>
+    </header>
+    
+    <div class="notice">
+        本汉化仅作学习参考交流使用，不可以任何形式进行盈利。
+    </div>
+    
+    
+    <div class="comic-container">
+        <div class="comic-title">漫画内容</div>
+        <div id="comic-content">
+            <!-- 漫画图片将由JavaScript动态加载 -->
+            <div class="loading">加载漫画中，请稍候...</div>
+        </div>
+        <div class="page-indicator" id="pageIndicator">第 <span id="currentPage">1</span> 页 / 共 29 页</div>
+        
+        <div class="navigation">
+            <button class="nav-btn" id="prevBtn" disabled>上一页</button>
+            <button class="nav-btn" id="nextBtn">下一页</button>
+        </div>
+    </div>
+    
+    <footer>
+        <p>合作汉化
+          图源：lilocat
+          文字提取：6k
+          翻译：青空朝颜
+          修图：Deco，桦冬
+          嵌字：Deco
+          校对：lilocat  </p>
+        <p>阅读进度: <span id="readProgress">0</span>%</p>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const comicContent = document.getElementById('comic-content');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const currentPageEl = document.getElementById('currentPage');
+            const progressBar = document.getElementById('progressBar');
+            const readProgressEl = document.getElementById('readProgress');
+            
+            const totalPages = 29;
+            let currentPage = 1;
+            
+            // 加载漫画图片
+            function loadComic(page) {
+                comicContent.innerHTML = '';
+                
+                // 创建漫画图片
+                const img = document.createElement('img');
+                img.src = `${page}.png`;
+                img.alt = `第 ${page} 页`;
+                img.className = 'comic-image';
+                img.onload = function() {
+                    updateProgress();
+                };
+                
+                comicContent.appendChild(img);
+                currentPageEl.textContent = page;
+                
+                // 更新按钮状态
+                prevBtn.disabled = (page === 1);
+                nextBtn.disabled = (page === totalPages);
+                
+                // 更新进度
+                updateProgress();
+            }
+            
+            // 更新阅读进度
+            function updateProgress() {
+                const progress = Math.floor((currentPage / totalPages) * 100);
+                progressBar.style.width = `${progress}%`;
+                readProgressEl.textContent = progress;
+            }
+            
+            // 上一页
+            prevBtn.addEventListener('click', function() {
+                if (currentPage > 1) {
+                    currentPage--;
+                    loadComic(currentPage);
+                    window.scrollTo(0, 0);
+                }
+            });
+            
+            // 下一页
+            nextBtn.addEventListener('click', function() {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    loadComic(currentPage);
+                    window.scrollTo(0, 0);
+                }
+            });
+            
+            // 键盘翻页支持
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowLeft' && currentPage > 1) {
+                    currentPage--;
+                    loadComic(currentPage);
+                    window.scrollTo(0, 0);
+                } else if (e.key === 'ArrowRight' && currentPage < totalPages) {
+                    currentPage++;
+                    loadComic(currentPage);
+                    window.scrollTo(0, 0);
+                }
+            });
+            
+            // 触摸滑动翻页（移动设备）
+            let touchStartX = 0;
+            
+            document.addEventListener('touchstart', function(e) {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+            
+            document.addEventListener('touchend', function(e) {
+                const touchEndX = e.changedTouches[0].screenX;
+                const diffX = touchStartX - touchEndX;
+                
+                // 左滑（下一页）
+                if (diffX > 50 && currentPage < totalPages) {
+                    currentPage++;
+                    loadComic(currentPage);
+                    window.scrollTo(0, 0);
+                }
+                // 右滑（上一页）
+                else if (diffX < -50 && currentPage > 1) {
+                    currentPage--;
+                    loadComic(currentPage);
+                    window.scrollTo(0, 0);
+                }
+            });
+            
+            // 初始化加载第一页
+            loadComic(currentPage);
+        });
+    </script>
+</body>
+</html>
