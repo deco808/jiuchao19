@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>鹫巢外传19</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -12,47 +13,61 @@
         }
         
         body {
-            font-family: Arial, sans-serif;
-            background-color: #111;
-            color: #ddd;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: #e0e0e0;
             line-height: 1.6;
-            padding-bottom: 40px;
+            min-height: 100vh;
         }
         
         .header {
             padding: 20px;
             text-align: center;
-            background-color: #000;
-            border-bottom: 1px solid #333;
+            background: rgba(0, 0, 0, 0.8);
+            border-bottom: 2px solid #ff9900;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(5px);
         }
         
         .title {
-            font-size: 24px;
-            color: #ff9900;
-            margin-bottom: 10px;
+            font-size: 2.2rem;
+            color: #ffcc00;
+            margin-bottom: 5px;
+            text-shadow: 0 0 10px rgba(255, 204, 0, 0.4);
         }
         
         .subtitle {
-            font-size: 16px;
-            color: #999;
-            margin-bottom: 15px;
+            font-size: 1.1rem;
+            color: #aaddff;
+            margin-bottom: 10px;
         }
         
         .notice {
-            background-color: #b30000;
+            background: linear-gradient(to right, #b30000, #cc0000);
             color: #fff;
             font-weight: bold;
-            padding: 15px;
+            padding: 14px;
             text-align: center;
             max-width: 800px;
-            margin: 0 auto 20px;
-            border-radius: 4px;
+            margin: 20px auto;
+            border-radius: 8px;
+            border: 2px solid #ff5252;
+            box-shadow: 0 0 15px rgba(255, 82, 82, 0.3);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 10px rgba(255, 82, 82, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(255, 82, 82, 0.6); }
+            100% { box-shadow: 0 0 10px rgba(255, 82, 82, 0.3); }
         }
         
         .comic-container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 10px;
+            padding: 15px;
         }
         
         .comic-image {
@@ -60,36 +75,81 @@
             width: 100%;
             height: auto;
             margin-bottom: 15px;
-            border-radius: 4px;
-            background-color: #222;
-            min-height: 50px;
+            border-radius: 8px;
+            background: linear-gradient(45deg, #222, #333);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            border: 1px solid #444;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
         }
         
-        .loading {
+        .comic-image.loaded {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .loading-container {
             text-align: center;
-            padding: 30px 0;
-            color: #777;
+            padding: 50px 20px;
+            color: #9e9e9e;
+            font-size: 1.2rem;
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 204, 0, 0.2);
+            border-top: 5px solid #ffcc00;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         
         .footer {
-            background-color: #000;
-            padding: 25px 20px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px 20px;
             text-align: center;
             margin-top: 30px;
-            border-top: 1px solid #222;
-        }
-        
-        .footer p {
-            margin: 8px 0;
-            font-size: 14px;
-            color: #999;
+            border-top: 1px solid #333;
+            backdrop-filter: blur(5px);
         }
         
         .footer-title {
-            color: #ff9900;
-            font-size: 18px;
-            margin-bottom: 15px;
+            color: #ffcc00;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
             font-weight: bold;
+        }
+        
+        .staff-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .staff-item {
+            background: rgba(255, 204, 0, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 204, 0, 0.3);
+        }
+        
+        .staff-role {
+            font-weight: bold;
+            color: #ffcc00;
+            margin-bottom: 5px;
+        }
+        
+        .staff-name {
+            font-size: 1.1rem;
         }
         
         .status-bar {
@@ -97,18 +157,58 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            background: rgba(0,0,0,0.8);
-            padding: 8px;
-            font-size: 14px;
+            background: rgba(0, 0, 0, 0.85);
+            padding: 12px;
+            font-size: 1rem;
             text-align: center;
-            color: #ff9900;
+            color: #ffcc00;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            z-index: 100;
+        }
+        
+        .progress-container {
+            width: 200px;
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, #ff9900, #ffcc00);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .completed-message {
+            color: #4CAF50;
+            font-weight: bold;
+            display: none;
+        }
+        
+        @media (max-width: 600px) {
+            .title {
+                font-size: 1.8rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .staff-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <div class="header">
         <div class="title">鹫巢外传19</div>
-        <div class="subtitle">中文汉化版</div>
+        <div class="subtitle">中文汉化版 | Cloudinary CDN加速</div>
     </div>
     
     <div class="notice">
@@ -116,22 +216,54 @@
     </div>
     
     <div class="comic-container" id="comic-container">
-        <div class="loading">正在加载漫画，请稍候...</div>
+        <div class="loading-container">
+            <div class="loading-spinner"></div>
+            <p>正在加载漫画，请稍候...</p>
+            <p><i class="fas fa-cloud"></i> 使用Cloudinary CDN加速中</p>
+        </div>
     </div>
     
     <div class="footer">
         <div class="footer-title">制作人员</div>
-        <p>图源：lilocat</p>
-        <p>文字提取：6k</p>
-        <p>翻译：青空朝颜</p>
-        <p>修图：Deco，桦冬</p>
-        <p>嵌字：Deco</p>
-        <p>校对：lilocat</p>
-        <p>网页制作：deepseek</p>
+        <div class="staff-grid">
+            <div class="staff-item">
+                <div class="staff-role">图源</div>
+                <div class="staff-name">lilocat</div>
+            </div>
+            <div class="staff-item">
+                <div class="staff-role">文字提取</div>
+                <div class="staff-name">6k</div>
+            </div>
+            <div class="staff-item">
+                <div class="staff-role">翻译</div>
+                <div class="staff-name">青空朝颜</div>
+            </div>
+            <div class="staff-item">
+                <div class="staff-role">修图</div>
+                <div class="staff-name">Deco, 桦冬</div>
+            </div>
+            <div class="staff-item">
+                <div class="staff-role">嵌字</div>
+                <div class="staff-name">Deco</div>
+            </div>
+            <div class="staff-item">
+                <div class="staff-role">校对</div>
+                <div class="staff-name">lilocat</div>
+            </div>
+            <div class="staff-item">
+                <div class="staff-role">网页制作</div>
+                <div class="staff-name">deepseek</div>
+            </div>
+        </div>
     </div>
     
     <div class="status-bar" id="statusBar">
-        已加载: <span id="loadedCount">0</span>/<span id="totalCount">0</span> 图片
+        <i class="fas fa-spinner fa-spin"></i>
+        <span>加载进度: <span id="loadedCount">0</span>/<span id="totalCount">0</span></span>
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <span class="completed-message" id="completedMessage"><i class="fas fa-check-circle"></i> 加载完成!</span>
     </div>
     
     <script>
@@ -140,53 +272,52 @@
             const statusBar = document.getElementById('statusBar');
             const loadedCount = document.getElementById('loadedCount');
             const totalCount = document.getElementById('totalCount');
+            const progressBar = document.getElementById('progressBar');
+            const completedMessage = document.getElementById('completedMessage');
             
-            // 手动添加所有图片URL（您需要补充完整所有29个URL）
+            // 正确的图片URL数组（已修复缺少逗号的问题）
             const imageUrls = [
                 "https://res.cloudinary.com/dayfb4276/image/upload/v1751777874/1_yrhvcz.png",
                 "https://res.cloudinary.com/dayfb4276/image/upload/v1751777881/2_hokgwc.png",
                 "https://res.cloudinary.com/dayfb4276/image/upload/v1751777873/3_lu3vvf.png",
                 "https://res.cloudinary.com/dayfb4276/image/upload/v1751777872/4_hbifmi.png",
                 "https://res.cloudinary.com/dayfb4276/image/upload/v1751777879/5_iolzsy.png",
-            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777881/6_m3zhzn.png",
-            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777883/7_voprve.png",
-            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777875/8_itgctd.png",
-            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777873/9_c00vvm.png",
-            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777879/10_ao0y8z.png",
-            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777882/11_beedi9.png",
-            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777885/12_djokip.png",
-            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777886/13_ygaz6r.png",
-            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777889/14_zlcfjf.png",
-            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777889/15_jionmx.png",
-            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777889/16_qecdpb.png",
-            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777896/17_bbnga0.png",
-            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777896/17_bbnga0.png",
-            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777896/19_xpuxwx.png",
-            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777897/20_kwbwir.png",
-            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777897/21_nvlhbk.png",
-            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777897/22_dzpayq.png",
-            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777899/23_dfpss0.png",
-            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777910/24_i8qiwx.png",
-            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777905/25_kxxfyt.png",
-            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777905/26_frhsjy.png",
-            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777903/27_l7jppj.png",
-            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777902/28_ki1zil.png",
-            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777905/29_jn0owp.png",
+                "https://res.cloudinary.com/dayfb4276/image/upload/v1751777881/6_m3zhzn.png",
+                "https://res.cloudinary.com/dayfb4276/image/upload/v1751777883/7_voprve.png",
+                "https://res.cloudinary.com/dayfb4276/image/upload/v1751777875/8_itgctd.png",
+                "https://res.cloudinary.com/dayfb4276/image/upload/v1751777873/9_c00vvm.png",
+                "https://res.cloudinary.com/dayfb4276/image/upload/v1751777879/10_ao0y8z.png",
+                "https://res.cloudinary.com/dayfb4276/image/upload/v1751777882/11_beedi9.png",
+                "https://res.cloudinary.com/dayfb4276/image/upload/v1751777885/12_djokip.png",
+                "https://res.cloudinary.com/dayfb4276/image/upload/v1751777886/13_ygaz6r.png",
+                "https://res.cloudinary.com/dayfb4276/image/upload/v1751777889/14_zlcfjf.png",
+                "https://res.cloudinary.com/dayfb4276/image/upload/v1751777889/15_jionmx.png",
+                "https://res.cloudinary.com/dayfb4276/image/upload/v1751777889/16_qecdpb.png",
+                "https://res.cloudinary.com/dayfb4276/image/upload/v1751777896/17_bbnga0.png",
+                "https://res.cloudinary.com/dayfb4276/image/upload/v1751777891/18_uonqve.png", // 修正了第18张图
+                "https://res.cloudinary.com/dayfb4276/image/upload/v1751777896/19_xpuxwx.png",
+                "https://res.cloudinary.com/dayfb4276/image/upload/v1751777897/20_kwbwir.png",
+                "https://res.cloudinary.com/dayfb4276/image/upload/v1751777897/21_nvlhbk.png",
+                "https://res.cloudinary.com/dayfb4276/image/upload/v1751777897/22_dzpayq.png",
+                "https://res.cloudinary.com/dayfb4276/image/upload/v1751777899/23_dfpss0.png",
+                "https://res.cloudinary.com/dayfb4276/image/upload/v1751777910/24_i8qiwx.png",
+                "https://res.cloudinary.com/dayfb4276/image/upload/v1751777905/25_kxxfyt.png",
+                "https://res.cloudinary.com/dayfb4276/image/upload/v1751777905/26_frhsjy.png",
+                "https://res.cloudinary.com/dayfb4276/image/upload/v1751777903/27_l7jppj.png",
+                "https://res.cloudinary.com/dayfb4276/image/upload/v1751777902/28_ki1zil.png",
+                "https://res.cloudinary.com/dayfb4276/image/upload/v1751777905/29_jn0owp.png"
             ];
             
             totalCount.textContent = imageUrls.length;
-            
-            // 如果没有URL，显示提示
-            if (imageUrls.length === 0) {
-                comicContainer.innerHTML = '<div class="loading">请添加图片URL</div>';
-                return;
-            }
             
             // 移除加载提示
             comicContainer.innerHTML = '';
             
             // 创建并添加所有漫画图片
             imageUrls.forEach((url, index) => {
+                const imgContainer = document.createElement('div');
+                imgContainer.className = 'img-container';
+                
                 const img = document.createElement('img');
                 img.src = url;
                 img.alt = `第 ${index + 1} 页`;
@@ -194,22 +325,50 @@
                 
                 // 添加图片加载状态监听
                 img.onload = function() {
-                    loadedCount.textContent = parseInt(loadedCount.textContent) + 1;
+                    this.classList.add('loaded');
                     
-                    // 当所有图片加载完成时隐藏状态栏
-                    if (parseInt(loadedCount.textContent) === imageUrls.length) {
+                    // 更新加载计数
+                    const loaded = parseInt(loadedCount.textContent) + 1;
+                    loadedCount.textContent = loaded;
+                    
+                    // 更新进度条
+                    const progress = Math.floor((loaded / imageUrls.length) * 100);
+                    progressBar.style.width = `${progress}%`;
+                    
+                    // 当所有图片加载完成时
+                    if (loaded === imageUrls.length) {
                         setTimeout(() => {
-                            statusBar.style.display = 'none';
-                        }, 2000);
+                            statusBar.innerHTML = '<i class="fas fa-check-circle"></i> 所有图片加载完成!';
+                            statusBar.style.color = '#4CAF50';
+                        }, 500);
                     }
                 };
                 
                 img.onerror = function() {
                     this.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="600" viewBox="0 0 400 600"><rect width="400" height="600" fill="%23222"/><text x="200" y="300" font-family="Arial" font-size="20" fill="%23aaa" text-anchor="middle">图片加载失败</text></svg>';
-                    loadedCount.textContent = parseInt(loadedCount.textContent) + 1;
+                    this.classList.add('loaded');
+                    
+                    // 更新加载计数
+                    const loaded = parseInt(loadedCount.textContent) + 1;
+                    loadedCount.textContent = loaded;
+                    
+                    // 更新进度条
+                    const progress = Math.floor((loaded / imageUrls.length) * 100);
+                    progressBar.style.width = `${progress}%`;
                 };
                 
-                comicContainer.appendChild(img);
+                // 添加页码标签
+                const pageNum = document.createElement('div');
+                pageNum.className = 'page-number';
+                pageNum.textContent = `第 ${index + 1} 页`;
+                pageNum.style.textAlign = 'center';
+                pageNum.style.margin = '5px 0 15px';
+                pageNum.style.color = '#aaa';
+                pageNum.style.fontSize = '0.9rem';
+                
+                imgContainer.appendChild(img);
+                imgContainer.appendChild(pageNum);
+                comicContainer.appendChild(imgContainer);
             });
         });
     </script>
