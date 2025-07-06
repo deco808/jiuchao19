@@ -12,105 +12,103 @@
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #1a1a1a;
-            color: #e0e0e0;
+            font-family: Arial, sans-serif;
+            background-color: #111;
+            color: #ddd;
             line-height: 1.6;
+            padding-bottom: 40px;
         }
         
         .header {
             padding: 20px;
             text-align: center;
-            background-color: #0d0d0d;
-            border-bottom: 2px solid #333;
+            background-color: #000;
+            border-bottom: 1px solid #333;
         }
         
         .title {
-            font-size: 1.8rem;
-            color: #ff9800;
+            font-size: 24px;
+            color: #ff9900;
             margin-bottom: 10px;
         }
         
         .subtitle {
-            font-size: 1.1rem;
-            color: #bdbdbd;
+            font-size: 16px;
+            color: #999;
             margin-bottom: 15px;
         }
         
         .notice {
-            background-color: #b71c1c;
-            color: #ffebee;
+            background-color: #b30000;
+            color: #fff;
             font-weight: bold;
             padding: 15px;
-            border-radius: 4px;
-            max-width: 800px;
-            margin: 0 auto;
             text-align: center;
-            border: 1px solid #ff5252;
+            max-width: 800px;
+            margin: 0 auto 20px;
+            border-radius: 4px;
         }
         
         .comic-container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 20px 10px;
+            padding: 10px;
         }
         
         .comic-image {
             display: block;
             width: 100%;
             height: auto;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             border-radius: 4px;
-            background-color: #252525;
-            min-height: 100px;
-        }
-        
-        .footer {
-            background-color: #0d0d0d;
-            padding: 30px 20px;
-            text-align: center;
-            border-top: 2px solid #333;
-        }
-        
-        .footer p {
-            margin: 10px 0;
-            font-size: 0.95rem;
-            color: #bdbdbd;
-        }
-        
-        .footer-title {
-            color: #ff9800;
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            font-weight: bold;
+            background-color: #222;
+            min-height: 50px;
         }
         
         .loading {
             text-align: center;
-            padding: 40px 0;
-            color: #9e9e9e;
+            padding: 30px 0;
+            color: #777;
         }
         
-        @media (max-width: 600px) {
-            .title {
-                font-size: 1.5rem;
-            }
-            
-            .subtitle {
-                font-size: 1rem;
-            }
-            
-            .notice {
-                padding: 12px;
-                font-size: 0.9rem;
-            }
+        .footer {
+            background-color: #000;
+            padding: 25px 20px;
+            text-align: center;
+            margin-top: 30px;
+            border-top: 1px solid #222;
+        }
+        
+        .footer p {
+            margin: 8px 0;
+            font-size: 14px;
+            color: #999;
+        }
+        
+        .footer-title {
+            color: #ff9900;
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .status-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0,0,0,0.8);
+            padding: 8px;
+            font-size: 14px;
+            text-align: center;
+            color: #ff9900;
         }
     </style>
 </head>
 <body>
     <div class="header">
         <div class="title">鹫巢外传19</div>
-        <div class="subtitle">中文汉化版 - 简洁阅读器</div>
+        <div class="subtitle">中文汉化版</div>
     </div>
     
     <div class="notice">
@@ -118,8 +116,7 @@
     </div>
     
     <div class="comic-container" id="comic-container">
-        <!-- 漫画图片将在这里动态加载 -->
-        <div class="loading">漫画加载中...</div>
+        <div class="loading">正在加载漫画，请稍候...</div>
     </div>
     
     <div class="footer">
@@ -133,30 +130,87 @@
         <p>网页制作：deepseek</p>
     </div>
     
+    <div class="status-bar" id="statusBar">
+        已加载: <span id="loadedCount">0</span>/<span id="totalCount">0</span> 图片
+    </div>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const comicContainer = document.getElementById('comic-container');
-            const totalPages = 29; // 总页数
-            const cloudinaryAccount = "dayfb4276"; // 你的Cloudinary账户名
+            const statusBar = document.getElementById('statusBar');
+            const loadedCount = document.getElementById('loadedCount');
+            const totalCount = document.getElementById('totalCount');
+            
+            // 手动添加所有图片URL（您需要补充完整所有29个URL）
+            const imageUrls = [
+                "https://res.cloudinary.com/dayfb4276/image/upload/v1751777874/1_yrhvcz.png",
+                "https://res.cloudinary.com/dayfb4276/image/upload/v1751777881/2_hokgwc.png",
+                "https://res.cloudinary.com/dayfb4276/image/upload/v1751777873/3_lu3vvf.png"
+                "https://res.cloudinary.com/dayfb4276/image/upload/v1751777872/4_hbifmi.png"
+                "https://res.cloudinary.com/dayfb4276/image/upload/v1751777879/5_iolzsy.png"
+            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777881/6_m3zhzn.png"
+            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777883/7_voprve.png"
+            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777875/8_itgctd.png"
+            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777873/9_c00vvm.png"
+            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777879/10_ao0y8z.png"
+            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777882/11_beedi9.png"
+            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777885/12_djokip.png"
+            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777886/13_ygaz6r.png"
+            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777889/14_zlcfjf.png"
+            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777889/15_jionmx.png"
+            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777889/16_qecdpb.png"
+            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777896/17_bbnga0.png"
+            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777896/17_bbnga0.png"
+            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777896/19_xpuxwx.png"
+            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777897/20_kwbwir.png"
+            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777897/21_nvlhbk.png"
+            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777897/22_dzpayq.png"
+            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777899/23_dfpss0.png"
+            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777910/24_i8qiwx.png"
+            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777905/25_kxxfyt.png"
+            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777905/26_frhsjy.png"
+            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777903/27_l7jppj.png"
+            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777902/28_ki1zil.png"
+            "https://res.cloudinary.com/dayfb4276/image/upload/v1751777905/29_jn0owp.png"
+            ];
+            
+            totalCount.textContent = imageUrls.length;
+            
+            // 如果没有URL，显示提示
+            if (imageUrls.length === 0) {
+                comicContainer.innerHTML = '<div class="loading">请添加图片URL</div>';
+                return;
+            }
             
             // 移除加载提示
             comicContainer.innerHTML = '';
             
             // 创建并添加所有漫画图片
-            for (let i = 1; i <= totalPages; i++) {
+            imageUrls.forEach((url, index) => {
                 const img = document.createElement('img');
-                img.src = `https://res.cloudinary.com/${cloudinaryAccount}/image/upload/v1751777874/${i}_yrhvcz.png`;
-                img.alt = `第 ${i} 页`;
+                img.src = url;
+                img.alt = `第 ${index + 1} 页`;
                 img.className = 'comic-image';
-                img.loading = "lazy"; // 启用懒加载
                 
-                // 添加图片加载错误处理
+                // 添加图片加载状态监听
+                img.onload = function() {
+                    loadedCount.textContent = parseInt(loadedCount.textContent) + 1;
+                    
+                    // 当所有图片加载完成时隐藏状态栏
+                    if (parseInt(loadedCount.textContent) === imageUrls.length) {
+                        setTimeout(() => {
+                            statusBar.style.display = 'none';
+                        }, 2000);
+                    }
+                };
+                
                 img.onerror = function() {
                     this.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="600" viewBox="0 0 400 600"><rect width="400" height="600" fill="%23222"/><text x="200" y="300" font-family="Arial" font-size="20" fill="%23aaa" text-anchor="middle">图片加载失败</text></svg>';
+                    loadedCount.textContent = parseInt(loadedCount.textContent) + 1;
                 };
                 
                 comicContainer.appendChild(img);
-            }
+            });
         });
     </script>
 </body>
